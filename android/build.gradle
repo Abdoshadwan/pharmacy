@@ -1,0 +1,32 @@
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+
+}
+buildscript {
+    repositories {
+        maven {
+            url 'https://dl.google.com/dl/android/maven2'
+        }
+        jcenter()
+        google()
+    }
+    dependencies {
+    classpath 'com.google.gms:google-services:4.4.1'
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
