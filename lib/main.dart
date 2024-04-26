@@ -9,6 +9,7 @@ import 'package:pharmacy/shared/styles/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:pharmacy/modules/register/cubit/bloc.dart';
 
 Widget startpage = Login();
 

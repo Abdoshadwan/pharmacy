@@ -32,6 +32,7 @@ Widget textformfield({
             color: Colors.grey,
           ))),
           child: TextFormField(
+            controller: controller,
             validator: validator,
             decoration: InputDecoration(
               border: InputBorder.none,

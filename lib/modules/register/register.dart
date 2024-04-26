@@ -11,14 +11,13 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 // ignore: must_be_immutable
 class Register extends StatelessWidget {
   Register({super.key});
-  final formkey = GlobalKey<FormState>();
-  var namecontroller = TextEditingController();
-  var phonecontroller = TextEditingController();
-  var emailcontroller = TextEditingController();
-  var passwordcontroller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    final formkey = GlobalKey<FormState>();
+    var namecontroller = TextEditingController();
+    var phonecontroller = TextEditingController();
+    var emailcontroller = TextEditingController();
+    var passwordcontroller = TextEditingController();
     return BlocProvider(
       create: (context) => RegisterCubit(),
       child: BlocConsumer<RegisterCubit, RegisterStates>(
@@ -101,7 +100,7 @@ class Register extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              keyboardType: TextInputType.emailAddress,
+                              keyboardType: TextInputType.name,
                             ),
                             SizedBox(
                               height: 10,
@@ -116,7 +115,7 @@ class Register extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              keyboardType: TextInputType.emailAddress,
+                              keyboardType: TextInputType.text,
                             ),
                             SizedBox(
                               height: 10,
@@ -155,17 +154,18 @@ class Register extends StatelessWidget {
                               condition: true,
                               builder: (context) {
                                 return defaultbutton(
-                                  text: 'Register',
-                                  ontap: () {
-                                    if (formkey.currentState!.validate()) {
-                                      RegisterCubit.get(context).Register_user(
-                                          name: namecontroller.text,
-                                          phone: phonecontroller.text,
-                                          email: emailcontroller.text,
-                                          password: passwordcontroller.text);
-                                    }
-                                  },
-                                );
+                                    text: 'Register',
+                                    ontap: () {
+                                      if (formkey.currentState!.validate()) {
+                                        RegisterCubit.get(context)
+                                            .Register_user(
+                                                name: namecontroller.text,
+                                                phone: phonecontroller.text,
+                                                email: emailcontroller.text,
+                                                password:
+                                                    passwordcontroller.text);
+                                      }
+                                    });
                               },
                               fallback: (context) {
                                 return Center(
