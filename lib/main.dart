@@ -4,14 +4,12 @@ import 'package:pharmacy/firebase_options.dart';
 import 'package:pharmacy/modules/login/login.dart';
 import 'package:pharmacy/modules/onboarding.dart';
 import 'package:pharmacy/modules/splash.dart';
+import 'package:pharmacy/shared/cache/sharedpref.dart';
 import 'package:pharmacy/shared/cubit/bloc_observer.dart';
 import 'package:pharmacy/shared/styles/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:pharmacy/modules/register/cubit/bloc.dart';
-
-Widget startpage = Login();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +17,13 @@ Future<void> main() async {
   Bloc.observer = MyBlocObserver();
   final prefs = await SharedPreferences.getInstance();
   var onboarding = prefs.getBool("onboarding") ?? false;
+  await Cache_Helper.Init();
+  var uid = Cache_Helper.getsaved(key: 'uid') ?? 'null';
+  print(uid);
   onboarding = false;
+
+  Widget startpage = Login();
+
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: lighttheme,
@@ -30,8 +34,11 @@ Future<void> main() async {
       duration: 3000,
       splashIconSize: 300,
       splash: Splash_Screen(),
-      nextScreen: onboarding == true ? startpage : On_Boarding(),
+      nextScreen: onboarding == true
+          ? startpage
+          : On_Boarding(
+              startpage: startpage,
+            ),
     ),
   ));
 }
-// options: DefaultFirebaseOptions.currentPlatform

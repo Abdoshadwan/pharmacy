@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacy/layout/home.dart';
 import 'package:pharmacy/modules/login/cubit/bloc.dart';
 import 'package:pharmacy/modules/login/cubit/states.dart';
 import 'package:pharmacy/modules/register/animation.dart';
 import 'package:pharmacy/modules/register/register.dart';
+import 'package:pharmacy/shared/cache/sharedpref.dart';
 import 'package:pharmacy/shared/components/components.dart';
 import 'package:pharmacy/shared/styles/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -18,7 +21,16 @@ class Login extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is LoginErrorState) {
+            Fluttertoast.showToast(msg: state.error);
+          }
+          if (state is LoginSuccessState) {
+            Cache_Helper.savedata(key: 'uid', value: state.uid).then((value) {
+              navigate_close(context, Home());
+            });
+          }
+        },
         builder: (context, state) {
           return Scaffold(
               backgroundColor: Colors.white,
@@ -114,11 +126,11 @@ class Login extends StatelessWidget {
                               defaultbutton(
                                 text: 'Login',
                                 ontap: () {
-                                  // if (formkey.currentState!.validate()) {
-                                  //   LoginCubit.get(context).userLogin(
-                                  //       email: emailcontroller.text,
-                                  //       password: passwordcontroller.text);
-                                  // }
+                                  if (formkey.currentState!.validate()) {
+                                    LoginCubit.get(context).userLogin(
+                                        email: emailcontroller.text,
+                                        password: passwordcontroller.text);
+                                  }
                                 },
                               ),
                               SizedBox(

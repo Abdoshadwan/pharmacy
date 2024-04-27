@@ -3,10 +3,12 @@ import 'package:pharmacy/modules/login/login.dart';
 import 'package:pharmacy/modules/register/animation.dart';
 import 'package:pharmacy/modules/register/cubit/bloc.dart';
 import 'package:pharmacy/modules/register/cubit/states.dart';
+import 'package:pharmacy/shared/cache/sharedpref.dart';
 import 'package:pharmacy/shared/components/components.dart';
 import 'package:pharmacy/shared/styles/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 // ignore: must_be_immutable
 class Register extends StatelessWidget {
@@ -22,17 +24,17 @@ class Register extends StatelessWidget {
       create: (context) => RegisterCubit(),
       child: BlocConsumer<RegisterCubit, RegisterStates>(
         listener: (context, state) {
-          // if (state is registercreateSuccessState) {
-          //   navigate_close(context, Login());
-          // }
-          // if (state is registercreateErrorState) {
-          //   Fluttertoast.showToast(msg: state.error);
-          // }
-          // if (state is registercreateSuccessState) {
-          //   // Cache_Helper.savedata(key: 'uid', value: state.uid).then((value) {
-          //   //   navigate_close(context, Login());
-          //   // });
-          // }
+          if (state is registercreateSuccessState) {
+            navigate_close(context, Login());
+          }
+          if (state is registercreateErrorState) {
+            Fluttertoast.showToast(msg: state.error);
+          }
+          if (state is registercreateSuccessState) {
+            Cache_Helper.savedata(key: 'uid', value: state.uid).then((value) {
+              navigate_close(context, Login());
+            });
+          }
         },
         builder: (context, state) {
           return Scaffold(
