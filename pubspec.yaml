@@ -36,8 +36,10 @@ dependencies:
   firebase_auth_platform_interface: ^7.2.5
   flutter:
     sdk: flutter
+  sliding_clipped_nav_bar: ^3.1.1
 
 dev_dependencies:
+  click_rive_animation: ^0.1.0-alpha
   cloud_firestore: ^4.17.2
   conditional_builder_null_safety: ^0.0.6
   firebase_auth: ^4.19.4

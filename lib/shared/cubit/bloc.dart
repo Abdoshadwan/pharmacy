@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmacy/shared/cubit/states.dart';
 
@@ -9,5 +10,22 @@ class AppCubit extends Cubit<AppCubitStates> {
   void change_onboard(onboardlistlength, index) {
     islastpage = onboardlistlength - 1 == index;
     emit(cgOnBoardingState());
+  }
+
+  //navigation bar
+  int selectedIndex = 0;
+
+  late PageController pageController =
+      PageController(initialPage: selectedIndex);
+  void initState() {
+    pageController = PageController(initialPage: selectedIndex);
+    emit(initbottomnavbar());
+  }
+
+  onButtonPressed(int index) {
+    selectedIndex = index;
+    emit(bottomnavbar());
+    pageController.animateToPage(selectedIndex,
+        duration: const Duration(milliseconds: 400), curve: Curves.easeOutQuad);
   }
 }

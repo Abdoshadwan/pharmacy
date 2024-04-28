@@ -1,6 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacy/firebase_options.dart';
+import 'package:pharmacy/layout/home.dart';
 import 'package:pharmacy/modules/login/login.dart';
 import 'package:pharmacy/modules/onboarding.dart';
 import 'package:pharmacy/modules/splash.dart';
@@ -20,9 +21,8 @@ Future<void> main() async {
   await Cache_Helper.Init();
   var uid = Cache_Helper.getsaved(key: 'uid') ?? 'null';
   print(uid);
-  onboarding = false;
 
-  Widget startpage = Login();
+  Widget startpage = uid == 'null' ? Login() : Home();
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
