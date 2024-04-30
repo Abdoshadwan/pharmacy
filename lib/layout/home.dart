@@ -18,6 +18,7 @@ class Home extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
               backgroundColor: Colors.white,
+              drawer: Drawer(),
               appBar: AppBar(
                 centerTitle: true,
                 title: Text(
@@ -41,7 +42,7 @@ class Home extends StatelessWidget {
                     child: PageView(
                       physics: const NeverScrollableScrollPhysics(),
                       controller: AppCubit.get(context).pageController,
-                      children: _listOfWidget,
+                      children: AppCubit.get(context).listOfWidget,
                     ),
                   ),
                 ],
@@ -85,11 +86,3 @@ class Home extends StatelessWidget {
     );
   }
 }
-
-List<Widget> _listOfWidget = <Widget>[
-  Container(alignment: Alignment.center, child: Center(child: Text('home'))),
-  Container(
-      alignment: Alignment.center, child: Center(child: Text('Combination'))),
-  Container(alignment: Alignment.center, child: Center(child: Text('home'))),
-  Container(alignment: Alignment.center, child: Center(child: Text('profile'))),
-];

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pharmacy/modules/combination.dart';
+import 'package:pharmacy/modules/favorites.dart';
+import 'package:pharmacy/modules/products.dart';
+import 'package:pharmacy/modules/settings.dart';
 import 'package:pharmacy/shared/cubit/states.dart';
 
 class AppCubit extends Cubit<AppCubitStates> {
@@ -28,4 +32,12 @@ class AppCubit extends Cubit<AppCubitStates> {
     pageController.animateToPage(selectedIndex,
         duration: const Duration(milliseconds: 400), curve: Curves.easeOutQuad);
   }
+
+  //************************************************** */
+  List<Widget> listOfWidget = <Widget>[
+    Products(),
+    Combination(),
+    Favorites(),
+    Settings(),
+  ];
 }

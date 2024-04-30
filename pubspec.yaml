@@ -39,6 +39,7 @@ dependencies:
   sliding_clipped_nav_bar: ^3.1.1
 
 dev_dependencies:
+  carousel_slider: ^4.2.1
   click_rive_animation: ^0.1.0-alpha
   cloud_firestore: ^4.17.2
   conditional_builder_null_safety: ^0.0.6
