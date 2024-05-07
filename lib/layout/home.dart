@@ -12,7 +12,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit(),
+      create: (context) => AppCubit()..getProducts(),
       child: BlocConsumer<AppCubit, AppCubitStates>(
         listener: (context, state) {},
         builder: (context, state) {
