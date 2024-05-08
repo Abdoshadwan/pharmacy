@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacy/modules/new-combination.dart';
+import 'package:pharmacy/shared/components/components.dart';
 import 'package:pharmacy/shared/cubit/bloc.dart';
 import 'package:pharmacy/shared/cubit/states.dart';
 import 'package:pharmacy/shared/styles/colors.dart';
@@ -14,7 +16,7 @@ class Combination extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {navigate_to(context, New_Combination());},
             child: Icon(Icons.add),
           ),
           body: ListView.builder(

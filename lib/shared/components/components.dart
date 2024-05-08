@@ -5,6 +5,10 @@ Future navigate_close(context, Widget targetscreen) {
   return Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => targetscreen));
 }
+Future navigate_to(context, Widget targetscreen) {
+  return Navigator.push(
+      context, MaterialPageRoute(builder: (context) => targetscreen));
+}
 
 //for login and register screens only
 Widget textformfield({

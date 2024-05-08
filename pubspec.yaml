@@ -36,6 +36,7 @@ dependencies:
   firebase_auth_platform_interface: ^7.2.5
   flutter:
     sdk: flutter
+  image_picker: ^1.1.1
   sliding_clipped_nav_bar: ^3.1.1
 
 dev_dependencies:

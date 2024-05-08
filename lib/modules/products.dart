@@ -7,6 +7,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:pharmacy/shared/styles/colors.dart';
 
+// ignore: must_be_immutable
 class Products extends StatelessWidget {
   Products({super.key});
 
@@ -15,7 +16,7 @@ class Products extends StatelessWidget {
     return BlocConsumer<AppCubit, AppCubitStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var cubit = AppCubit.get(context);
+        // var cubit = AppCubit.get(context);
         return ConditionalBuilder(
             condition: true,
             builder: (context) {
@@ -28,9 +29,10 @@ class Products extends StatelessWidget {
     );
   }
 
-  List<String> images = ['https://img.freepik.com/free-photo/two-miniature-shopping-carts-filled-with-pills-blister-white-background_23-2147883780.jpg?t=st=1715093583~exp=1715097183~hmac=4a6e2003f70391526243fbdb4ba8f8d98c5554859e33a26bf5bd9ee6eb0d6fa8&w=740',
-  'https://img.freepik.com/free-photo/front-view-shopping-cart-with-pill-foils-containers_23-2148533497.jpg?t=st=1715091217~exp=1715094817~hmac=654b951c76fc19a06273ad190aed10c6f5e60534db0b00e60621ba72de2a3f52&w=740',
-  'https://img.freepik.com/free-photo/top-view-pillboxes-with-stethoscope-table_23-2148430056.jpg?t=st=1715096755~exp=1715100355~hmac=ff3f0e11b45023161bc5b7e449c58ba0d368ead1083cee8aabb2c4eafa11a575&w=740'
+  List<String> images = [
+    'https://img.freepik.com/free-photo/two-miniature-shopping-carts-filled-with-pills-blister-white-background_23-2147883780.jpg?t=st=1715093583~exp=1715097183~hmac=4a6e2003f70391526243fbdb4ba8f8d98c5554859e33a26bf5bd9ee6eb0d6fa8&w=740',
+    'https://img.freepik.com/free-photo/front-view-shopping-cart-with-pill-foils-containers_23-2148533497.jpg?t=st=1715091217~exp=1715094817~hmac=654b951c76fc19a06273ad190aed10c6f5e60534db0b00e60621ba72de2a3f52&w=740',
+    'https://img.freepik.com/free-photo/top-view-pillboxes-with-stethoscope-table_23-2148430056.jpg?t=st=1715096755~exp=1715100355~hmac=ff3f0e11b45023161bc5b7e449c58ba0d368ead1083cee8aabb2c4eafa11a575&w=740'
   ];
   Widget Productbuilder(context) {
     return SingleChildScrollView(
@@ -106,7 +108,10 @@ class Products extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 crossAxisCount: 2,
                 childAspectRatio: .7,
-                children: List.generate(AppCubit.get(context).Prooducts.length, (index) => buildproduct(AppCubit.get(context).Prooducts[index]))),
+                children: List.generate(
+                    AppCubit.get(context).Prooducts.length,
+                    (index) =>
+                        buildproduct(AppCubit.get(context).Prooducts[index]))),
           )
         ],
       ),
@@ -121,7 +126,8 @@ Widget buildcategoryitem() => Container(
         alignment: AlignmentDirectional.bottomCenter,
         children: [
           Image(
-            image: NetworkImage('https://img.freepik.com/free-photo/front-view-shopping-cart-with-pill-foils-containers_23-2148533497.jpg?t=st=1715091217~exp=1715094817~hmac=654b951c76fc19a06273ad190aed10c6f5e60534db0b00e60621ba72de2a3f52&w=740'),
+            image: NetworkImage(
+                'https://img.freepik.com/free-photo/front-view-shopping-cart-with-pill-foils-containers_23-2148533497.jpg?t=st=1715091217~exp=1715094817~hmac=654b951c76fc19a06273ad190aed10c6f5e60534db0b00e60621ba72de2a3f52&w=740'),
             height: 100,
             width: 100,
             fit: BoxFit.cover,

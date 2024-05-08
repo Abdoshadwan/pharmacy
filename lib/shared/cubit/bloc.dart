@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmacy/modules/combination.dart';
@@ -6,8 +8,9 @@ import 'package:pharmacy/modules/products.dart';
 import 'package:pharmacy/modules/settings.dart';
 import 'package:pharmacy/shared/cubit/states.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../models/combinationmodel.dart';
 import '../../models/productmodel.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 class AppCubit extends Cubit<AppCubitStates> {
   AppCubit() : super(InitialState());
 
@@ -45,7 +48,9 @@ class AppCubit extends Cubit<AppCubitStates> {
     Favorites(),
     settings(),
   ];
+
   //*********************************************************//
+  //get products
   List<ProductsModel> Prooducts = [];
 
   void getProducts() {
@@ -56,15 +61,80 @@ class AppCubit extends Cubit<AppCubitStates> {
         .collection('products')
         .get()
         .then((value) {
-
-          value.docs.forEach((element) {
-            Prooducts.add(ProductsModel.fromjson(element.data()));});
-          emit(getproductssuccessState());
-          print(ProductsModel);
+      value.docs.forEach((element) {
+        Prooducts.add(ProductsModel.fromjson(element.data()));
+      });
+      emit(getproductssuccessState());
+      print(ProductsModel);
     }).catchError((error) {
       print(error.toString());
       emit(getproductserrorState());
-    });}
+    });
   }
 
+  //*****************************************************************//
+  // create combination
+  File? combinimage;
 
+  Future<void> getpickedimage() async {
+    final pickedfile = await ImagePicker().pickImage(
+        source: ImageSource.gallery);
+    if (pickedfile != null) {
+      combinimage = File(pickedfile.path);
+      emit(pickedcombinimagesuccessState());
+    } else {
+      print('no image picked');
+      emit(pickedcombinimageerrorState());
+    }
+  }
+
+  void uploadcombinimage({
+    required String name,
+    required String price,
+    required String text,
+  }) async {
+    emit(createcombinloadingState());
+    await FirebaseStorage.instance
+        .ref()
+        .child('combinations/${Uri.file(combinimage!.path).pathSegments.last}')
+        .putFile(combinimage!)
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {
+        createCombination(price:price ,name:name ,text:text ,image:value );
+      }).catchError((error) {
+        print(error.toString());
+        emit(createcombinsuccessState());
+      });
+    }).catchError((error) {
+      emit(createcombinerrorState());
+      print(error.toString());
+    });
+  }
+
+  void createCombination(
+      {required String text,required String name,required String price,String image='' }) {
+    emit(createcombinloadingState());
+    CombinModel combinmodel = CombinModel(
+        name: name,
+        image:image,
+        text: text,
+        price:price ,
+      );
+    FirebaseFirestore.instance
+        .collection('combinations')
+        .add(combinmodel.toMap())
+        .then((value) {
+      emit(createcombinsuccessState());
+    }).catchError((error) {
+      emit(createcombinerrorState());
+    });
+  }
+  void removecombinimage() {
+    combinimage = null;
+    emit(RemovecombinimageState());
+  }
+  //**************************************************************************//
+  //get combinations
+
+
+}

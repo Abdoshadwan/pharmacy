@@ -11,78 +11,75 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppCubit()..getProducts(),
-      child: BlocConsumer<AppCubit, AppCubitStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return Scaffold(
-              backgroundColor: Colors.white,
-              drawer: Drawer(),
-              appBar: AppBar(
-                centerTitle: true,
-                title: Text(
-                  'Pharmacy',
-                  style: TextStyle(color: primary_c, fontFamily: 'Oswald'),
+    return BlocConsumer<AppCubit, AppCubitStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+            backgroundColor: Colors.white,
+            drawer: Drawer(),
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                'Pharmacy',
+                style: TextStyle(color: primary_c, fontFamily: 'Oswald'),
+              ),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Cache_Helper.removesaved(key: 'uid');
+                    },
+                    icon: Icon(
+                      Icons.logout,
+                      color: primary_c,
+                    )),
+              ],
+            ),
+            body: Column(
+              children: <Widget>[
+                Expanded(
+                  child: PageView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: AppCubit.get(context).pageController,
+                    children: AppCubit.get(context).listOfWidget,
+                  ),
                 ),
-                actions: [
-                  IconButton(
-                      onPressed: () {
-                        Cache_Helper.removesaved(key: 'uid');
-                      },
-                      icon: Icon(
-                        Icons.logout,
-                        color: primary_c,
-                      )),
-                ],
-              ),
-              body: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: PageView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: AppCubit.get(context).pageController,
-                      children: AppCubit.get(context).listOfWidget,
-                    ),
-                  ),
-                ],
-              ),
-              bottomNavigationBar: SlidingClippedNavBar.colorful(
-                backgroundColor: Colors.white,
-                onButtonPressed: (index) {
-                  AppCubit.get(context).onButtonPressed(index);
-                },
-                iconSize: 25,
-                selectedIndex: AppCubit.get(context).selectedIndex,
-                barItems: <BarItem>[
-                  BarItem(
-                    icon: Icons.home,
-                    title: 'HOME',
-                    activeColor: primary_c,
-                    inactiveColor: primary_c,
-                  ),
-                  BarItem(
-                    icon: Icons.category,
-                    title: 'Combination',
-                    activeColor: primary_c,
-                    inactiveColor: primary_c,
-                  ),
-                  BarItem(
-                    icon: Icons.favorite,
-                    title: 'Favorites',
-                    activeColor: primary_c,
-                    inactiveColor: primary_c,
-                  ),
-                  BarItem(
-                    icon: Icons.tune_rounded,
-                    title: 'Settings',
-                    activeColor: primary_c,
-                    inactiveColor: primary_c,
-                  ),
-                ],
-              ));
-        },
-      ),
+              ],
+            ),
+            bottomNavigationBar: SlidingClippedNavBar.colorful(
+              backgroundColor: Colors.white,
+              onButtonPressed: (index) {
+                AppCubit.get(context).onButtonPressed(index);
+              },
+              iconSize: 25,
+              selectedIndex: AppCubit.get(context).selectedIndex,
+              barItems: <BarItem>[
+                BarItem(
+                  icon: Icons.home,
+                  title: 'HOME',
+                  activeColor: primary_c,
+                  inactiveColor: primary_c,
+                ),
+                BarItem(
+                  icon: Icons.category,
+                  title: 'Combination',
+                  activeColor: primary_c,
+                  inactiveColor: primary_c,
+                ),
+                BarItem(
+                  icon: Icons.favorite,
+                  title: 'Favorites',
+                  activeColor: primary_c,
+                  inactiveColor: primary_c,
+                ),
+                BarItem(
+                  icon: Icons.tune_rounded,
+                  title: 'Settings',
+                  activeColor: primary_c,
+                  inactiveColor: primary_c,
+                ),
+              ],
+            ));
+      },
     );
   }
 }

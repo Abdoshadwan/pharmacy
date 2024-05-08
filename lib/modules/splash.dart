@@ -41,17 +41,6 @@ Widget splash() {
               ),
             ),
           ),
-          // SizedBox(
-          //   height: 10,
-          // ),
-          // Expanded(
-          //   child: Container(
-          //     child: Text(
-          //       "splash screen",
-          //       style: TextStyle(fontSize: 20),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     ),
