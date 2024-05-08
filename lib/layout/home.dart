@@ -48,6 +48,7 @@ class Home extends StatelessWidget {
             bottomNavigationBar: SlidingClippedNavBar.colorful(
               backgroundColor: Colors.white,
               onButtonPressed: (index) {
+                // if (index == 1) AppCubit.get(context).getcombins();
                 AppCubit.get(context).onButtonPressed(index);
               },
               iconSize: 25,

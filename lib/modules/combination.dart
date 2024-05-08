@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacy/models/combinationmodel.dart';
 import 'package:pharmacy/modules/new-combination.dart';
 import 'package:pharmacy/shared/components/components.dart';
 import 'package:pharmacy/shared/cubit/bloc.dart';
 import 'package:pharmacy/shared/cubit/states.dart';
 import 'package:pharmacy/shared/styles/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 
 class Combination extends StatelessWidget {
   const Combination({super.key});
@@ -15,31 +17,45 @@ class Combination extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {navigate_to(context, New_Combination());},
-            child: Icon(Icons.add),
-          ),
-          body: ListView.builder(
-            itemBuilder: (context, index) => Container(
-                decoration: BoxDecoration(border: Border.all(width: .1)),
-                padding: EdgeInsets.all(20),
-                child: buildproduct()),
-            itemCount: 7,
-          ),
-        );
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                navigate_to(context, New_Combination());
+              },
+              child: Icon(Icons.add),
+            ),
+            body: ConditionalBuilder(
+              condition: state is getCombinsuccessState ||
+                  AppCubit.get(context).combins.length >= 1,
+              builder: (context) {
+                return AppCubit.get(context).combins.length >= 1
+                    ? ListView.builder(
+                        itemBuilder: (context, index) => Container(
+                            decoration:
+                                BoxDecoration(border: Border.all(width: .1)),
+                            padding: EdgeInsets.all(20),
+                            child: buildproduct(
+                                AppCubit.get(context).combins[index])),
+                        itemCount: AppCubit.get(context).combins.length,
+                      )
+                    : Center(child: CircularProgressIndicator());
+              },
+              fallback: (context) {
+                return Center(child: Text('Empty'));
+              },
+            ));
       },
     );
   }
 }
 
-Widget buildproduct() {
+Widget buildproduct(CombinModel model) {
   return Container(
     color: Colors.white,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Image(
-          image: AssetImage('assets/images/image.png'),
+          image: NetworkImage('${model.image}'),
           width: double.infinity,
           height: 200,
           fit: BoxFit.fill,
@@ -50,7 +66,7 @@ Widget buildproduct() {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'name',
+                '${model.name}',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -58,7 +74,7 @@ Widget buildproduct() {
               Row(
                 children: [
                   Text(
-                    '200',
+                    '${model.price}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,

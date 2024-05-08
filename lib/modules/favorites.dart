@@ -7,28 +7,28 @@ class Favorites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-       textDirection: TextDirection.ltr,
+      textDirection: TextDirection.ltr,
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment:CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(' 5 items',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                  SizedBox(
-              height: 10,
-            ),
-            Container(
-              color: Colors.grey[300],
-              child: GridView.count(
-                  mainAxisSpacing: 7,
-                  crossAxisSpacing: 7,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  childAspectRatio: .7,
-                  children: List.generate(5, (index) => buildproduct())),
-            )
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                color: Colors.grey[300],
+                child: GridView.count(
+                    mainAxisSpacing: 7,
+                    crossAxisSpacing: 7,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    childAspectRatio: .7,
+                    children: List.generate(5, (index) => buildproduct())),
+              )
             ],
           ),
         ),
@@ -44,7 +44,7 @@ Widget buildproduct() {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Image(
-          image: AssetImage('assets\images\image.png'),
+          image: AssetImage('assets/images/image.png'),
           width: double.infinity,
           height: 200,
           fit: BoxFit.fill,

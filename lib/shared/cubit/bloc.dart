@@ -11,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/combinationmodel.dart';
 import '../../models/productmodel.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
 class AppCubit extends Cubit<AppCubitStates> {
   AppCubit() : super(InitialState());
 
@@ -27,7 +28,7 @@ class AppCubit extends Cubit<AppCubitStates> {
   int selectedIndex = 0;
 
   late PageController pageController =
-  PageController(initialPage: selectedIndex);
+      PageController(initialPage: selectedIndex);
 
   void initState() {
     pageController = PageController(initialPage: selectedIndex);
@@ -36,7 +37,16 @@ class AppCubit extends Cubit<AppCubitStates> {
 
   onButtonPressed(int index) {
     selectedIndex = index;
-    emit(bottomnavbar());
+    if (selectedIndex == 0) emit(bottomhomenavbar());
+    if (selectedIndex == 1) {
+      emit(bottomcombinnavbar());
+      getcombins();
+      Future.delayed(Duration(seconds: 2), () {
+        emit(emptystate());
+      });
+    }
+    if (selectedIndex == 2) emit(bottomfavnavbar());
+    if (selectedIndex == 3) emit(bottomprofilenavbar());
     pageController.animateToPage(selectedIndex,
         duration: const Duration(milliseconds: 400), curve: Curves.easeOutQuad);
   }
@@ -57,10 +67,7 @@ class AppCubit extends Cubit<AppCubitStates> {
     Prooducts = [];
 
     emit(getproductsloadingState());
-    FirebaseFirestore.instance
-        .collection('products')
-        .get()
-        .then((value) {
+    FirebaseFirestore.instance.collection('products').get().then((value) {
       value.docs.forEach((element) {
         Prooducts.add(ProductsModel.fromjson(element.data()));
       });
@@ -77,8 +84,8 @@ class AppCubit extends Cubit<AppCubitStates> {
   File? combinimage;
 
   Future<void> getpickedimage() async {
-    final pickedfile = await ImagePicker().pickImage(
-        source: ImageSource.gallery);
+    final pickedfile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedfile != null) {
       combinimage = File(pickedfile.path);
       emit(pickedcombinimagesuccessState());
@@ -100,7 +107,7 @@ class AppCubit extends Cubit<AppCubitStates> {
         .putFile(combinimage!)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
-        createCombination(price:price ,name:name ,text:text ,image:value );
+        createCombination(price: price, name: name, text: text, image: value);
       }).catchError((error) {
         print(error.toString());
         emit(createcombinsuccessState());
@@ -112,14 +119,17 @@ class AppCubit extends Cubit<AppCubitStates> {
   }
 
   void createCombination(
-      {required String text,required String name,required String price,String image='' }) {
+      {required String text,
+      required String name,
+      required String price,
+      String image = ''}) {
     emit(createcombinloadingState());
     CombinModel combinmodel = CombinModel(
-        name: name,
-        image:image,
-        text: text,
-        price:price ,
-      );
+      name: name,
+      image: image,
+      text: text,
+      price: price,
+    );
     FirebaseFirestore.instance
         .collection('combinations')
         .add(combinmodel.toMap())
@@ -129,12 +139,34 @@ class AppCubit extends Cubit<AppCubitStates> {
       emit(createcombinerrorState());
     });
   }
+
   void removecombinimage() {
     combinimage = null;
     emit(RemovecombinimageState());
   }
+
   //**************************************************************************//
   //get combinations
+  List<CombinModel> combins = [];
+  void getcombins() {
+    combins = [];
+    emit(getCombinLoadingState());
+    FirebaseFirestore.instance.collection('combinations').get().then((value) {
+      value.docs.forEach((element) {
+        element.reference.collection('likes').get().then((value) {
+          combins.add(CombinModel.fromjson(element.data()));
+        }).catchError((error) {});
+      });
 
+      emit(getCombinsuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(getCombinerrorState());
+    });
+  }
 
+  //********************************************* */
+  void emitstate() {
+    emit(emptystate());
+  }
 }

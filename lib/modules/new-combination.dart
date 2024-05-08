@@ -30,14 +30,16 @@ class New_Combination extends StatelessWidget {
                   onPressed: () {
                     if (AppCubit.get(context).combinimage == null) {
                       AppCubit.get(context).createCombination(
-                        name:namecontrller.text ,
-                        price:pricecontrller.text ,
-                        text: textcontroller.text,);
+                        name: namecontrller.text,
+                        price: pricecontrller.text,
+                        text: textcontroller.text,
+                      );
                     } else {
                       AppCubit.get(context).uploadcombinimage(
-                        name:namecontrller.text ,
-                        price:pricecontrller.text ,
-                        text: textcontroller.text,);
+                        name: namecontrller.text,
+                        price: pricecontrller.text,
+                        text: textcontroller.text,
+                      );
                     }
                   },
                   child: Text(
@@ -53,12 +55,30 @@ class New_Combination extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-
-
-              textformfield(controller: namecontrller,hinttext:'name' ,keyboardType:TextInputType.text ,prefixicon:Icons.info ,validator: (p0) {},),
-              SizedBox(height: 10,),
-              textformfield(controller: pricecontrller,hinttext:'price' ,keyboardType:TextInputType.text ,prefixicon:Icons.price_check ,validator: (p0) {},),
-              SizedBox(height: 20,),
+              textformfield(
+                controller: namecontrller,
+                hinttext: 'name',
+                keyboardType: TextInputType.text,
+                prefixicon: Icons.info,
+                validator: (p0) {
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              textformfield(
+                controller: pricecontrller,
+                hinttext: 'price',
+                keyboardType: TextInputType.text,
+                prefixicon: Icons.price_check,
+                validator: (p0) {
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
               Expanded(
                 child: TextFormField(
                   controller: textcontroller,
@@ -67,7 +87,7 @@ class New_Combination extends StatelessWidget {
                       border: InputBorder.none),
                 ),
               ),
-              if (AppCubit.get(context).combinimage!=null)
+              if (AppCubit.get(context).combinimage != null)
                 Stack(
                   alignment: AlignmentDirectional.topEnd,
                   children: [
@@ -87,7 +107,7 @@ class New_Combination extends StatelessWidget {
                     IconButton.outlined(
                         color: primary_c,
                         onPressed: () {
-                                AppCubit.get(context).removecombinimage();
+                          AppCubit.get(context).removecombinimage();
                         },
                         icon: Icon(
                           Icons.close,
@@ -98,7 +118,9 @@ class New_Combination extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextButton(
-                        onPressed: () {AppCubit.get(context).getpickedimage();},
+                        onPressed: () {
+                          AppCubit.get(context).getpickedimage();
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -110,7 +132,6 @@ class New_Combination extends StatelessWidget {
                           ],
                         )),
                   ),
-
                 ],
               )
             ]),
