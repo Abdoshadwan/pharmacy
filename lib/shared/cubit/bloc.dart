@@ -153,9 +153,7 @@ class AppCubit extends Cubit<AppCubitStates> {
     emit(getCombinLoadingState());
     FirebaseFirestore.instance.collection('combinations').get().then((value) {
       value.docs.forEach((element) {
-        element.reference.collection('likes').get().then((value) {
-          combins.add(CombinModel.fromjson(element.data()));
-        }).catchError((error) {});
+        combins.add(CombinModel.fromjson(element.data()));
       });
 
       emit(getCombinsuccessState());
@@ -169,4 +167,7 @@ class AppCubit extends Cubit<AppCubitStates> {
   void emitstate() {
     emit(emptystate());
   }
+
+  //************************************************* */
+
 }
