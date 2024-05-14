@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pharmacy/shared/styles/colors.dart';
 
 class settings extends StatelessWidget {
-   settings({super.key});
+    settings({super.key});
 
   @override
   Widget build(BuildContext context) {
