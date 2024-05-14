@@ -2,10 +2,13 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pharmacy/models/usermodel.dart';
 import 'package:pharmacy/modules/combination.dart';
 import 'package:pharmacy/modules/favorites.dart';
 import 'package:pharmacy/modules/products.dart';
 import 'package:pharmacy/modules/settings.dart';
+import 'package:pharmacy/shared/cache/sharedpref.dart';
+import 'package:pharmacy/shared/components/components.dart';
 import 'package:pharmacy/shared/cubit/states.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/combinationmodel.dart';
@@ -169,5 +172,19 @@ class AppCubit extends Cubit<AppCubitStates> {
   }
 
   //************************************************* */
+  //get user data
+  UserModel? model;
 
+  void getuserdata() async {
+    emit(GetUserLoadingState());
+    await Cache_Helper.Init();
+    uid = Cache_Helper.getsaved(key: 'uid') ?? 'null';
+    FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
+      model = UserModel.fromjson(value.data());
+      emit(GetUsersuccessState());
+    }).catchError((error) {
+      emit(GetUsererrorState());
+      print(error.toString());
+    });
+  }
 }

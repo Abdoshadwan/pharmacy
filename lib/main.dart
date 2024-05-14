@@ -6,6 +6,7 @@ import 'package:pharmacy/modules/login/login.dart';
 import 'package:pharmacy/modules/onboarding.dart';
 import 'package:pharmacy/modules/splash.dart';
 import 'package:pharmacy/shared/cache/sharedpref.dart';
+import 'package:pharmacy/shared/components/components.dart';
 import 'package:pharmacy/shared/cubit/bloc.dart';
 import 'package:pharmacy/shared/cubit/bloc_observer.dart';
 import 'package:pharmacy/shared/styles/themes.dart';
@@ -20,7 +21,7 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
   var onboarding = prefs.getBool("onboarding") ?? false;
   await Cache_Helper.Init();
-  var uid = Cache_Helper.getsaved(key: 'uid') ?? 'null';
+  uid = Cache_Helper.getsaved(key: 'uid') ?? 'null';
   print(uid);
 
   Widget startpage = uid == 'null' ? Login() : Home();
@@ -29,7 +30,7 @@ Future<void> main() async {
     BlocProvider(
         create: (context) => AppCubit()
           ..getProducts()
-          ..getcombins(),
+          ..getcombins()..getuserdata(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: lighttheme,

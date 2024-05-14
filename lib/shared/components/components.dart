@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pharmacy/shared/styles/colors.dart';
 
+String uid = '';
+
 Future navigate_close(context, Widget targetscreen) {
   return Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => targetscreen));
 }
+
 Future navigate_to(context, Widget targetscreen) {
   return Navigator.push(
       context, MaterialPageRoute(builder: (context) => targetscreen));

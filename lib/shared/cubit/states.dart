@@ -37,4 +37,11 @@ class getCombinLoadingState extends AppCubitStates {}
 class getCombinsuccessState extends AppCubitStates {}
 
 class getCombinerrorState extends AppCubitStates {}
+
 class emptystate extends AppCubitStates {}
+
+class GetUserLoadingState extends AppCubitStates {}
+
+class GetUsersuccessState extends AppCubitStates {}
+
+class GetUsererrorState extends AppCubitStates {}
