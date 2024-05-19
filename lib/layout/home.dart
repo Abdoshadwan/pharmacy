@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacy/modules/login/login.dart';
 import 'package:pharmacy/shared/cache/sharedpref.dart';
+import 'package:pharmacy/shared/components/components.dart';
 import 'package:pharmacy/shared/cubit/bloc.dart';
 import 'package:pharmacy/shared/cubit/states.dart';
 import 'package:pharmacy/shared/styles/colors.dart';
@@ -27,6 +29,7 @@ class Home extends StatelessWidget {
                 IconButton(
                     onPressed: () {
                       Cache_Helper.removesaved(key: 'uid');
+                      navigate_close(context, Login());
                     },
                     icon: Icon(
                       Icons.logout,
