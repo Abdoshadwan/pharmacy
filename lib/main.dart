@@ -20,6 +20,7 @@ Future<void> main() async {
   Bloc.observer = MyBlocObserver();
   final prefs = await SharedPreferences.getInstance();
   var onboarding = prefs.getBool("onboarding") ?? false;
+  onboarding = false;
   await Cache_Helper.Init();
   uid = Cache_Helper.getsaved(key: 'uid') ?? 'null';
   print(uid);
@@ -30,7 +31,8 @@ Future<void> main() async {
     BlocProvider(
         create: (context) => AppCubit()
           ..getProducts()
-          ..getcombins()..getuserdata(),
+          ..getcombins()
+          ..getuserdata(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: lighttheme,
